@@ -1,0 +1,32 @@
+# Docker Compose file to launch a local Drupal develpment cluster with an
+# existing project.
+
+version: '3'
+
+services: 
+
+  drp-mysql: 
+    image: "mysql:5.6"
+    ports:
+       - "3306:3306" 
+    volumes:
+       - ./data/mysql:/var/lib/mysql
+    env_file: ./etc/mysql.env 
+
+  drp-php:
+    image: drp-php
+    volumes:
+        - ${DRP_SITE_PATH}:/var/www/drupal
+    expose:
+      - 9000
+    env_file: ./etc/drupal.env 
+
+  drp-nginx:
+    image: drp-nginx 
+    volumes:
+      - ${DRP_SITE_PATH}:/var/www/drupal
+    ports:
+      - "8080:8080"
+    env_file: ./etc/drupal.env 
+
+  
