@@ -2,3 +2,5 @@ data/*
 sites/*
 .env
 etc
+.vscode
+scratch
