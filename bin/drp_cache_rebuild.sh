@@ -27,5 +27,5 @@ SITE=$1
 ## Sanitize the DB slug by excluding everything that MySQL doesn't like from $SITE
 DBSLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 
-docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-dump
+docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush cache-rebuild
 

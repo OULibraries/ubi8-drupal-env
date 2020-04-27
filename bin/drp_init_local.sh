@@ -48,6 +48,6 @@ EOF
 echo ${SETTINGSPHP} > ./sites/${SITE}/web/sites/default/settings.local.php
 
 
-docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/test-site/vendor/bin/drush sql-create
-docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/test-site/vendor/bin/drush -y  site-install --site-name="${SITE}" 
+docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-create
+docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush -y  site-install --site-name="${SITE}" 
 
