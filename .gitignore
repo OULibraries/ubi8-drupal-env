@@ -1,2 +1,4 @@
 data/*
 sites/*
+.env
+etc
