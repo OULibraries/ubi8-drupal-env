@@ -14,9 +14,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY drupal.conf /etc/nginx/conf.d/drupal.conf
 
-COPY ../sites/drupal-demo /var/www/drupal
-
-EXPOSE 80
+EXPOSE 8080
 
 STOPSIGNAL SIGTERM
 
