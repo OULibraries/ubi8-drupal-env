@@ -28,7 +28,6 @@ SITE=$1
 ## Sanitize the DB slug by excluding everything that MySQL doesn't like from $SITE
 DBSLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 
-
 ## 
 echo "Let's build a site!"
 echo "building ${SITE}" 
@@ -36,18 +35,16 @@ echo "building ${SITE}"
 mkdir -p "./sites/${SITE}"
 
 
-docker run --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli composer create-project drupal/recommended-project ./sites/${SITE}
-docker run --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli composer require --working-dir ./sites/${SITE} drush/drush
+US=$(id -u)
+GP=$(id -g)
 
-sudo chown -R $(whoami) ./sites/${SITE} 
-
+docker run --env COMPOSER_HOME=/tmp/composer --user ${US}:${GP} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli composer create-project drupal/recommended-project ./sites/${SITE} && composer require --working-dir ./sites/${SITE} drush/drush
 
 read -r -d '' INCLUDELOCAL <<- EOF
 if (file_exists(\$app_root . '/' . \$site_path . '/settings.local.php')) {
   include \$app_root . '/' . \$site_path . '/settings.local.php';
 }
 EOF
-
 
 cp ./sites/${SITE}/web/sites/default/default.settings.php ./sites/${SITE}/web/sites/default/settings.php
 echo  ${INCLUDELOCAL} >> ./sites/${SITE}/web/sites/default/settings.php
