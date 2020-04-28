@@ -24,9 +24,9 @@ Contaienr UID/GID config is still a work in progress and you may need to 777 the
 
 
 To download Red Hat UBI base images, you'll need to authenticate with the Red Hat package registry using a Red Hat Developer Account or a Registry Service Account, which can be created from a developer account.
-
+```
 docker login -u USERNAME https://registry.redhat.io
-
+```
 To build the container, run `make all` from the containers folder. 
 
 
