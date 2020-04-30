@@ -23,4 +23,8 @@ STOPSIGNAL SIGQUIT
 
 EXPOSE 9000
 
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-F", "-R"]
