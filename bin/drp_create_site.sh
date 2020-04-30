@@ -31,10 +31,10 @@ echo "building ${SITE}"
 mkdir -p "./sites/${SITE}"
 
 
-US=$(id -u)
-GP=$(id -g)
+HOST_UID=$(id -u)
+HOST_GID=$(id -g)
 
-docker run --env COMPOSER_HOME=/tmp/composer --user ${US}:${GP} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
+docker run --env COMPOSER_HOME=/tmp/composer --user ${HOST_UID}:${HOST_GID} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
 "composer create-project drupal/recommended-project ./sites/${SITE} \
 && composer require --working-dir ./sites/${SITE} drush/drush:~10  drupal/console:~1 \
   --prefer-dist \
