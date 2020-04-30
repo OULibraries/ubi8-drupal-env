@@ -45,9 +45,13 @@ read -r -d '' SETTINGSPHP <<- EOF
 
 EOF
 
+## TODO file private path, maybe need to do something with s3fs
+
+
 echo ${SETTINGSPHP} > ./sites/${SITE}/web/sites/default/settings.local.php
 
 
-docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-create
-docker run --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush -y  site-install --site-name="${SITE}" 
+HOST_UID=$(id -u)
+HOST_GID=$(id -g)
 
+docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-create && ./sites/${SITE}/vendor/bin/drush -y  site-install --site-name="${SITE}"
