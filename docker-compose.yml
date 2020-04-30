@@ -5,7 +5,8 @@ version: '3'
 
 services: 
 
-  drp-mysql: 
+  drp-mysql:
+    user: "${HOST_UID}:${HOST_GID}"
     image: "mysql:5.6"
     ports:
        - "3306:3306" 
@@ -19,6 +20,9 @@ services:
         - ${DRP_SITE_PATH}:/var/www/drupal
     expose:
       - 9000
+    environment:
+      - HOST_UID=${HOST_UID}
+      - HOST_GID=${HOST_GID}
     env_file: ./etc/drupal.env 
 
   drp-nginx:
