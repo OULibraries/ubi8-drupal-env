@@ -12,7 +12,7 @@ services:
        - "3306:3306" 
     volumes:
        - ./data/mysql:/var/lib/mysql
-    env_file: ./etc/mysql.env 
+    env_file: .env 
 
   drp-php:
     image: drp-php
@@ -23,7 +23,7 @@ services:
     environment:
       - HOST_UID=${HOST_UID}
       - HOST_GID=${HOST_GID}
-    env_file: ./etc/drupal.env 
+    env_file: .env 
 
   drp-nginx:
     image: drp-nginx 
@@ -31,6 +31,6 @@ services:
       - ${DRP_SITE_PATH}:/var/www/drupal
     ports:
       - "8080:8080"
-    env_file: ./etc/drupal.env 
+    env_file: .env 
 
   
