@@ -30,5 +30,9 @@ DBSLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
-docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-dump
+
+DRP_ENV="$(dirname ${BASH_SOURCE})/../.env"
+export $(cat ${DRP_ENV} | xargs)
+
+docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-dump |  aws s3 cp - s3://ul-drp-data/${DRP_USER}/${SITE}.$( date +'%s').sql --sse 
 
