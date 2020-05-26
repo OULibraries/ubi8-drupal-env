@@ -1,5 +1,9 @@
 #!/usr/bin/env bash 
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "${SCRIPT_DIR}/library.sh"
+
+
 if [  -z "$1" ]; then
   cat <<USAGE
 drp_cli.sh opens bash in a drp-cli container  
@@ -28,9 +32,7 @@ SLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
-
-DRP_ENV="$(dirname ${BASH_SOURCE})/../.env"
-export $(cat ${DRP_ENV} | xargs)
+export_docker_vars
 
 docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli bash
 

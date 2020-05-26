@@ -1,6 +1,7 @@
 #!/usr/bin/env bash 
-## Bootstrap and empty Drupal site
 
+#SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#. "${SCRIPT_DIR}/library.sh"
 
 if [  -z "$1" ]; then
   cat <<USAGE
@@ -33,9 +34,7 @@ fi
 ## Sanitize the DB slug by excluding everything that MySQL doesn't like from $SITE
 SLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 
-DRP_ENV="$(dirname ${BASH_SOURCE})/../.env"
-export $(cat ${DRP_ENV} | xargs)
-
+export_docker_vars
 
 
 echo "Generating settings.local.php for site ${SITE}."

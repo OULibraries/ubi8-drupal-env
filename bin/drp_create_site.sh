@@ -1,5 +1,8 @@
 #!/usr/bin/env bash 
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "${SCRIPT_DIR}/library.sh"
+
 if [  -z "$1" ]; then
   cat <<USAGE
 drp_create_site.sh builds a Drupal project folder.
