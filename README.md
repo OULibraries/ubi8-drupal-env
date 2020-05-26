@@ -1,52 +1,55 @@
 
 # DRP Environment
 
-## Project Configuration
-Project-level configuration should be placed in a top level `.env` folder. 
 
-Right now, this is limited to specifying a drupal site to run. For example:
-
-``
-DRP_SITE_PATH=./sites/demo-site
-``
-
-## Container Configuration
-
-The following files are used for container configration:
-* `etc/drupal.env`
-* `etc/mysql.env`
-
-The only required value is setting the `MYSQL_ROOT_PASSWORD` variable in the mysql environment file. 
-
-Contaienr UID/GID config is still a work in progress and you may need to 777 the folder `mysql/data`. 
 
 ## Building the containers 
 
 
-To download Red Hat UBI base images, you'll need to authenticate with the Red Hat package registry using a Red Hat Developer Account or a Registry Service Account, which can be created from a developer account.
+To download Red Hat UBI base images, you'll need to authenticate with the Red Hat package registry using a Red Hat Registry Service Account, which can be created from your Red Hat Developer Account. See Red Hat's [Registry Authentication](https://access.redhat.com/RegistryAuthentication) page.  
+
+Once you've created a service account run `docker login`:
 ```
 docker login -u USERNAME https://registry.redhat.io
 ```
-To build the container, run `make all` from the containers folder. 
+
+And then run `make all` to build the container set.  
 
 
-## Running the Environment
+## Using the containers
 
-Once you've created the neccessary containers and configuration files, you can run the environment with with `docker-compose up`.
+## Configuration
 
+Create the require `.env` file pased on the provided `env_template` file. 
 
-## Running the commandds
+Important values to set include:
 
-These still have a ton of rough edges and don't properly account for UID/GID differences between container and host. You may wish to 777 the project folder. 
+```
+DRP_SITE_PATH=./sites/demo-site
+```
 
+NOTE: this file is also parsed by several shell scripts, so its contents should be limited to KEY="value" statements.
 
 ### Creating a site
 
-* `drp_create_site.sh $site-slug` - Creates a Drupal project folder for a site
-* `drp_init_local.sh $site-slug`  - Initializes an empty drupal site based on a Drupal project folder
+Use the following commands to create a site. 
+
+* `drp_create_site.sh $SITE` - Creates a Drupal project folder for a site
+* `drp_init_local.sh $SITE`  - Initializes an empty drupal site based on a Drupal project folder
+
+You can use `drp_composer.sh` to install additional componetns to your project if required. 
+
+## Running the Environment
+
+Once you've created the neccessary containers and configuration files, you can start the environment with `make start` and shut it down with `make stop`.
+
 
 ### Misc 
+The following comands exist and may be useful:
 
-* `drp_cache_rebuild.sh $site-slug` - Rebuilds the Drupal cache
-* `drp_composer.sh $site-slug` - Runs composer commands 
-* `drp_sql_export.sh $site-slug` - Exports a database
+* `drp_cache_rebuild.sh` - Rebuilds the Drupal cache
+* `drp_cli.sh` - Runs a bash shell in the drp-cli container
+* `drp_composer.sh` - Runs Drupal Composer
+* `drp_db_export.sh` - Exports a Drupal database to S3
+* `drp_db_import.sh` - Imports a Drupal database from S3
+* `drp_db_ls.sh` - Lists Drupal database dumps available in S3

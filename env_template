@@ -1,4 +1,6 @@
 # Copy this file to .env and make changes there
+
+DRP_USER=my_user
 SITE=demo-site
 DRP_SITE_PATH=./sites/demo-site
 MYSQL_ROOT_PASSWORD=changeme!

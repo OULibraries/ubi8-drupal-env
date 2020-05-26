@@ -29,7 +29,7 @@ site:
 	@bin/drp_init_local.sh $(SITE)
 
 .PHONY: run
-run:
+start:
 	@docker-compose up -d
 
 .PHONY: stop

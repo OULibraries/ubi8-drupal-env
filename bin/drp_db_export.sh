@@ -5,8 +5,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [  -z "$1" ]; then
   cat <<USAGE
-drp_cache_rebuild.sh runs a cache rebuild on your Drupal site 
-Usage: ./bin/drp_cache_rebuild.sh \$SITE
+drp_db exports a sql database 
+Usage: drp_db_export.sh \$SITE
 \$SITE    local name for Drupal site (eg. example or demo-site).
 USAGE
   exit 1;
@@ -31,5 +31,9 @@ SLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
-docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush cache-rebuild
+
+export_docker_vars
+
+
+docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli ./sites/${SITE}/vendor/bin/drush sql-dump |  aws s3 cp - s3://ul-drp-data/${DRP_USER}/${SITE}.$( date +'%s').sql --sse 
 
