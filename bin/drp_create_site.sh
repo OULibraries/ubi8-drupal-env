@@ -36,7 +36,7 @@ HOST_GID=$(id -g)
 
 docker run --env COMPOSER_HOME=/tmp/composer --user ${HOST_UID}:${HOST_GID} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
 "composer create-project drupal/recommended-project ./sites/${SITE} \
-&& composer require --working-dir ./sites/${SITE} drush/drush:~10  drupal/console:~1 \
+&& composer require --working-dir ./sites/${SITE} drush/drush:~10  drupal/console:~1 drupal/config_filter:~1 drupal/config_split:~1 drupal/s3fs:~3 drupal/s3fs_cors:~1 drupal/admin_toolbar:~2 drupal/bootstrap:~3 drupal/entity_browser:~2 drupal/stage_file_proxy:~1 drupal/twig_tweak:~2 drupal/devel:~2 \
   --prefer-dist \
   --optimize-autoloader"
 
