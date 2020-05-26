@@ -25,16 +25,26 @@ if [ ! -d "./sites/${SITE}" ]; then
 fi
 
 
+if [ -f "./sites/${SITE}/web/sites/default/settings.local.php" ]; then
+  echo "settings.local.php for site already exists. Remove manually before re-initializing site."
+  exit 1;
+fi
+
 ## Sanitize the DB slug by excluding everything that MySQL doesn't like from $SITE
-DBSLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
+SLUG=$(echo -n  "${SITE}" | tr -C '_A-Za-z0-9' '_')
+
+DRP_ENV="$(dirname ${BASH_SOURCE})/../.env"
+export $(cat ${DRP_ENV} | xargs)
+
+
 
 echo "Generating settings.local.php for site ${SITE}."
 read -r -d '' SETTINGSPHP <<- EOF
 <?php
 \$databases['default']['default'] = array (
-   'database' => 'drp_${DBSLUG}',
+   'database' => 'drp_${SLUG}',
    'username' => 'root',
-   'password' => 'secrets',
+   'password' => '${MYSQL_ROOT_PASSWORD}',
    'prefix' => '',
    'host' => 'drp-mysql',
    'port' => '3306',
@@ -44,6 +54,7 @@ read -r -d '' SETTINGSPHP <<- EOF
 EOF
 
 ## TODO file private path, maybe need to do something with s3fs
+
 
 
 echo "${SETTINGSPHP}" > "./sites/${SITE}/web/sites/default/settings.local.php"

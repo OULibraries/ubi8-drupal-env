@@ -1,12 +1,10 @@
 #!/usr/bin/env bash 
-## Bootstrap and empty Drupal site
-
 
 if [  -z "$1" ]; then
   cat <<USAGE
-drp_create_site.sh builds a Drupal site.
-Usage: drp_init.sh \$SITEPATH
-\$SITEPATH    local name for Drupal site (eg. example or demo-site).
+drp_create_site.sh builds a Drupal project folder.
+Usage: drp_create_site.sh \$SITE
+\$SITE    local name for Drupal site (eg. example or demo-site).
 USAGE
   exit 1;
 fi

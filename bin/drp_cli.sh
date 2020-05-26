@@ -1,14 +1,10 @@
 #!/usr/bin/env bash 
 
-
-
-
-if [ !  -z "$1" ]; then
+if [  -z "$1" ]; then
   cat <<USAGE
-drp_db_ls.sh list sql exports in ul-drp-data S3 bucket 
-Usage: drp_db_ls.sh
-
-Command takes no arguments.  
+drp_cli.sh opens bash in a drp-cli container  
+Usage: ./bin/drp_cli.sh \$SITE
+\$SITE    local name for Drupal site (eg. example or demo-site).
 USAGE
   exit 1;
 fi
@@ -19,11 +15,8 @@ if [ ! -d "./sites" ]; then
   exit 1;
 fi
 
-
-
-
-if [ ! -d "./sites" ]; then
-  echo "No sites directory. Are you in the right place?"
+if [ ! -d "./sites/${SITE}" ]; then
+  echo "${SITE} note found in ./sites"
   exit 1;
 fi
 
@@ -39,5 +32,5 @@ HOST_GID=$(id -g)
 DRP_ENV="$(dirname ${BASH_SOURCE})/../.env"
 export $(cat ${DRP_ENV} | xargs)
 
-aws s3 ls --recursive --human-readable  s3://ul-drp-data/ 
+docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli bash
 

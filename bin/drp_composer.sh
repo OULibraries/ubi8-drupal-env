@@ -1,5 +1,14 @@
 #!/bin/bash 
 
+if [  -z "$1" ]; then
+  cat <<USAGE
+drp_composer.sh runs composer in a container  
+Usage: ./bin/drp_composer.sh \$ARGS
+\$ARGS    subcommands and arguments to send to composer. 
+USAGE
+  exit 1;
+fi
+
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
