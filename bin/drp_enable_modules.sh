@@ -1,27 +1,44 @@
-#!/bin/bash
+#!/usr/bin/env bash 
 
-# Enables Third-Party Drupal 8 Modules via Drush
-# SITE_ROOT defined in drupal/resources/drupal.env
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "${SCRIPT_DIR}/library.sh"
 
-# Simple function to provide some of the standard drush command boilerplate.
-function d () {
-    drush -y --root=$SITE_ROOT "$@"
-}
+if [  -z "$1" ]; then
+  cat <<USAGE
+ drp_enable_modules.sh  enables our core set of drupal modules.
+Usage: drp_enable_modules.sh \$SITE
+\$SITE    local name for Drupal site (eg. example or demo-site).
+USAGE
+  exit 1;
+fi
 
-d en admin_toolbar
-d en bootstrap
-d en config_filter
-d en config_split
-d en datetime_range
-d en devel
-d en entity_browser
-d en layout_builder
-d en layout_discovery
-d en media
-d en media_library
-d en responsive_image
-d en s3fs
-d en s3fs_cors
-d en stage_file_proxy
-d en telephone
-d en twig_tweak
+if [ ! -d "./sites" ]; then
+  echo "No sites directory. Are you in the right place?"
+  exit 1;
+fi
+
+SITE=$1
+
+
+HOST_UID=$(id -u)
+HOST_GID=$(id -g)
+
+docker run  --user "${HOST_UID}:${HOST_GID}" --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -i drp-cli bash -s  <<EOF
+ ./sites/${SITE}/vendor/bin/drush en -y admin_toolbar
+ ./sites/${SITE}/vendor/bin/drush en -y bootstrap
+ ./sites/${SITE}/vendor/bin/drush en -y config_filter
+ ./sites/${SITE}/vendor/bin/drush en -y config_split
+ ./sites/${SITE}/vendor/bin/drush en -y datetime_range
+ ./sites/${SITE}/vendor/bin/drush en -y devel
+ ./sites/${SITE}/vendor/bin/drush en -y entity_browser
+ ./sites/${SITE}/vendor/bin/drush en -y layout_builder
+ ./sites/${SITE}/vendor/bin/drush en -y layout_discovery
+ ./sites/${SITE}/vendor/bin/drush en -y media
+ ./sites/${SITE}/vendor/bin/drush en -y media_library
+ ./sites/${SITE}/vendor/bin/drush en -y responsive_image
+ ./sites/${SITE}/vendor/bin/drush en -y s3fs
+ ./sites/${SITE}/vendor/bin/drush en -y s3fs_cors
+ ./sites/${SITE}/vendor/bin/drush en -y stage_file_proxy
+ ./sites/${SITE}/vendor/bin/drush en -y telephone
+ ./sites/${SITE}/vendor/bin/drush en -y twig_tweak
+EOF
