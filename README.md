@@ -2,9 +2,17 @@
 # DRP Environment
 
 
+## Requirements
+
+To run sucessfully, you'll need: 
+
+* a nice Unix environment (linux, MacOS, WSL2) 
+* working AWS credentials with access to `ul-drp-data`
+* working install of docker and docker-compose
+
+It's recommended that you use `aws-vault` to manage your aws credentials.
 
 ## Building the containers 
-
 
 To download Red Hat UBI base images, you'll need to authenticate with the Red Hat package registry using a Red Hat Registry Service Account, which can be created from your Red Hat Developer Account. See Red Hat's [Registry Authentication](https://access.redhat.com/RegistryAuthentication) page.  
 
@@ -14,7 +22,6 @@ docker login -u USERNAME https://registry.redhat.io
 ```
 
 And then run `make all` to build the container set.  
-
 
 ## Using the containers
 
