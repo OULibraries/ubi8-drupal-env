@@ -5,8 +5,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [  -z "$1" ]; then
   cat <<USAGE
-drp_create_site.sh builds a Drupal project folder.
-Usage: drp_create_site.sh \$SITE
+drp_create_project builds a Drupal project folder.
+Usage: drp_create_project.sh \$SITE
 \$SITE    local name for Drupal site (eg. example or demo-site).
 USAGE
   exit 1;
@@ -26,7 +26,7 @@ fi
 
 
 ## 
-echo "Let's build a site!"
+echo "Let's build a Drupal project!"
 echo "building ${SITE}" 
 
 mkdir -p "./sites/${SITE}"
