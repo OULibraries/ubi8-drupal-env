@@ -4,7 +4,7 @@
 
 FROM registry.redhat.io/ubi8/ubi
 
-RUN dnf --disableplugin=subscription-manager module install -y  php 
+RUN dnf --disableplugin=subscription-manager module install -y  php:7.3
 RUN yum --disableplugin=subscription-manager install -y php-gd php-pdo php-mysqlnd php-opcache git
 
 COPY www.conf /etc/php-fpm.d/www.conf
