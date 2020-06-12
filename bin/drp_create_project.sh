@@ -37,13 +37,13 @@ HOST_GID=$(id -g)
 
 docker run --env COMPOSER_HOME=/tmp/composer --user ${HOST_UID}:${HOST_GID} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
 "COMPOSER_MEMORY_LIMIT=-1 composer create-project drupal/recommended-project ./sites/${SITE}  \
-&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drush/drush:~10  drupal/console:~1  \
-&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drupal/config_filter:~1 drupal/config_split:~1 \
+&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drush/drush:~10  \
+&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drupal/config_filter:~1 drupal/config_split:~1.5 \
 "
 
 docker run --env COMPOSER_HOME=/tmp/composer --user ${HOST_UID}:${HOST_GID} --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
 "COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drupal/s3fs:~3   drupal/s3fs_cors:~1  \
-&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drupal/admin_toolbar:~2  drupal/bootstrap:~3 drupal/entity_browser:~2 drupal/stage_file_proxy:~1 drupal/twig_tweak:~2 drupal/devel:~2  \
+&& COMPOSER_MEMORY_LIMIT=-1 composer require --prefer-dist --working-dir ./sites/${SITE} drupal/admin_toolbar:~2  drupal/bootstrap:~3 drupal/entity_browser:~2 drupal/stage_file_proxy:~1 drupal/twig_tweak:~2  \
 "
 
 read -r -d '' INCLUDELOCAL <<- EOF
