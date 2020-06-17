@@ -5,10 +5,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [  -z "$1" ]; then
   cat <<USAGE
-drp_db_export.sh exports a sql database 
-Usage: drp_db_export.sh \$SITE \$DRP_EXPORT
+drp_db_import imports a sql database 
+Usage: drp_db_import \$SITE \$DRP_IMPORT
 \$SITE    local name for Drupal site (eg. example or demo-site).
-\$DRP_EXPORT    path to sql export in the ul-drp-data S3 bucket  
+\$DRP_EXPORT    path to sql import in the ul-drp-data S3 bucket  
 USAGE
   exit 1;
 fi
