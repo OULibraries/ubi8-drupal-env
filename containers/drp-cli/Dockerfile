@@ -3,7 +3,7 @@
 
 FROM registry.redhat.io/ubi8/ubi
 
-RUN dnf --disableplugin=subscription-manager module install -y  php 
+RUN dnf --disableplugin=subscription-manager module install -y  php:7.3
 RUN dnf --disableplugin=subscription-manager install -y php-gd php-pdo php-mysqlnd php-opcache  
 
 RUN dnf --disableplugin=subscription-manager install -y git zip bind-utils
@@ -19,7 +19,7 @@ RUN dnf --disableplugin=subscription-manager install  -y mysql
 
 
 
-RUN sed -Ei 's/memory_limit = .*/memory_limit = 1024M/' /etc/php.ini
+RUN sed -Ei 's/memory_limit = .*/memory_limit = -1/' /etc/php.ini
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

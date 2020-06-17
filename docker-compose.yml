@@ -7,7 +7,7 @@ services:
 
   drp-mysql:
     user: "${HOST_UID}:${HOST_GID}"
-    image: "mysql:5.6"
+    image: "mysql:5.7"
     ports:
        - "3306:3306" 
     volumes:
