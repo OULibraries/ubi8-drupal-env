@@ -50,6 +50,17 @@ read -r -d '' SETTINGSPHP <<- EOF
    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
    'driver' => 'mysql',
  );
+
+\$settings['config_sync_directory'] = 'sites/default/sync';
+\$settings['s3fs.access_key'] = '${S3FS_ACCESS_KEY}';
+\$settings['s3fs.secret_key'] = '${S3FS_SECRET_KEY}';
+\$config['s3fs.settings']['bucket'] = 'ul-drupal';
+\$settings['s3fs.use_s3_for_public'] = TRUE;
+\$settings['s3fs.use_s3_for_private'] = TRUE;
+
+\$settings['trusted_host_patterns'] = [
+'^localhost$',
+];
 EOF
 
 ## TODO file private path, maybe need to do something with s3fs
@@ -63,5 +74,5 @@ HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
 docker run --user "${HOST_UID}":"${HOST_GID}" --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z --workdir /mnt/data --rm -it drp-cli bash -c \
-" ./sites/${SITE}/vendor/bin/drush sql-create \
-&& ./sites/${SITE}/vendor/bin/drush site-install --site-name=${SITE}"
+" ./sites/${SITE}/vendor/bin/drush sql-create --debug \
+&& ./sites/${SITE}/vendor/bin/drush site-install --site-name=${SITE} --debug"
