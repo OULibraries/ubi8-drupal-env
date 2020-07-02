@@ -4,3 +4,5 @@ DRP_USER=my_user
 SITE=demo-site
 DRP_SITE_PATH=./sites/demo-site
 MYSQL_ROOT_PASSWORD=changeme!
+S3FS_ACCESS_KEY=changeme! (ul-drupal AWS user API credentials in LastPass)
+S3FS_SECRET_KEY=changeme! (ul-drupal AWS user API credentials in LastPass)
