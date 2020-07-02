@@ -24,5 +24,16 @@ HOST_GID=$(id -g)
 
 export_docker_vars
 
-docker run --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli bash
+
+cat <<HELP
+Hello!
+
+This container supports running a variety of CLI tools including:
+* composer - run normally 
+* php      - run normally 
+* drush    - run from sites/$SITE/vendor/bin/drush for your drupal site
+
+HELP
+
+docker run  --env COMPOSER_HOME=/mnt/data/composer --user ${HOST_UID}:${HOST_GID} --network ubi8-drupal-env_default --volume "$PWD":/mnt/data:z  --workdir /mnt/data --rm -it drp-cli bash
 
